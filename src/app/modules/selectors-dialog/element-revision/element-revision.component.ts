@@ -66,6 +66,7 @@ export class ElementRevisionSelectComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.source)) {
+      // console.debug(this.source)
       this.modalRef.open();
     }
   }

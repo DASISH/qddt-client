@@ -36,7 +36,7 @@ export class TemplateService {
 
     if (!pageSearch.hasDetailSearch) {
       for (const field of qe.fields) {
-        queries.push(field + '=' + this.padAsterisk(pageSearch.key.trim()));
+        queries.push(field + '=' + this.padAsterisk(pageSearch.key?.trim() || '*'));
       }
       if (pageSearch.keys) {
         Array.from(pageSearch.keys)

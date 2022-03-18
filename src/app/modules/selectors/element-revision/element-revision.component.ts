@@ -56,6 +56,8 @@ export class ElementRevisionComponent implements OnChanges {
         this.showAutoComplete = true;
         this.revisionRef = null;
         this.showRevisionSelect = false;
+      } else {
+        this.showAutoComplete = true;
       }
     }
   }
@@ -83,7 +85,8 @@ export class ElementRevisionComponent implements OnChanges {
   }
 
   private isElementRevision(entity: IRevisionRef | IElement): entity is IRevisionRef {
-    return (entity as IRevisionRef).elementId !== undefined && (entity as IRevisionRef).elementRevision !== undefined;
+    const item = entity as IRevisionRef
+    return (!item.elementId) && (item.elementId !== '') && item.elementId !== undefined && item.elementRevision !== undefined;
   }
 
   private isElement(entity: IRevisionRef | IElement): entity is IElement {

@@ -1,6 +1,7 @@
+import { hasChanges } from 'src/app/lib';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { Component,OnInit, OnChanges, OnDestroy, Input, Output, EventEmitter, Inject, LOCALE_ID, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, OnDestroy, Input, Output, EventEmitter, Inject, LOCALE_ID, SimpleChanges } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { Column } from './table.column';
 import { DEFAULT_COLUMNS, LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS } from './table.column.config';
@@ -94,6 +95,14 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
+
+    if (hasChanges(changes.pageSearch)) {
+      if (this.pageSearch.xmlLang == 'none') {
+        console.error('ingen språk satt!!!!')
+      }
+    }
+
+    if (!hasChanges(changes.items)) return;
 
     this.columns = this.getColumns();
 

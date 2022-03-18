@@ -56,7 +56,7 @@ export class ResponseDomain implements IEntityEditAudit {
   name: string;
   description: string;
   displayLayout = '0';
-  managedRepresentation?: Category;
+  managedRepresentation: Category = new Category();
   responseCardinality: ResponseCardinality = new ResponseCardinality();
   responseKind: string = DomainKind[DomainKind.NONE];
   classKind: string = ElementKind[ElementKind.RESPONSEDOMAIN];

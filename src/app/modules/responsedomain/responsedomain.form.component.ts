@@ -34,14 +34,38 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   public canEdit: boolean;
 
   public readonly CATEGORY = ElementKind.CATEGORY;
-  public readonly formId = Math.round(Math.random() * 10000);
-  public readonly modalId = Math.round(Math.random() * 10000);
   public readonly DATE_FORMATS = DATE_FORMAT_MAP;
   public readonly LANGUAGES = LANGUAGE_MAP;
+  public readonly formId = Math.round(Math.random() * 10000);
+  public readonly modalId = Math.round(Math.random() * 10000);
   public readonly DISPLAYLAYOUTS = toSelectItems(DisplayLayoutKind);
 
   public readonly trackByIndex = (index: number, entity) => entity.id || index;
+
   public readonly trackByFunc = (idx: any, category: { id: any; }) => category?.id || idx;
+
+  public readonly power10 = (format: number): number => 1 / Math.pow(10, format);
+
+  public readonly subtract = (value1, value2): number => parseInt(value1) - parseInt(value2);
+
+  public readonly addition = (value1, value2): number => parseInt(value1) + parseInt(value2);
+
+  public readonly buildPreviewResponseDomain = () => delay(20).then(() => {
+    this.responseDomain.managedRepresentation.inputLimit = this.responseDomain.responseCardinality
+    this.previewResponseDomain = new ResponseDomain(this.responseDomain);
+  });
+
+  public readonly setDescription = () => {
+    const children = this.responseDomain.managedRepresentation.children
+    this.responseDomain.name =
+      this.responseDomain.managedRepresentation.name =
+      `${children[0]?.name} + ${children[1]?.name}`;
+
+    // this.responseDomain.description =
+    //   this.responseDomain.managedRepresentation.label =
+    //   `Mixed responsedomain (${children[0]?.label} + ${children[1]?.label})`;
+  }
+
 
   private _modalRef: M.Modal;
   public get modalRef(): M.Modal {
@@ -53,7 +77,6 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
     }
     return this._modalRef;
   }
-
 
   constructor(private service: TemplateService, private router: Router, private properties: PropertyStoreService) {
 
@@ -90,12 +113,9 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
       delay(20).then(() => {
         M.updateTextFields()
         this.buildPreviewResponseDomain()
-        console.debug(this.previewResponseDomain)
       })
     }
   }
-
-
 
   public onGotoEdit(event: Event, id: string) {
     event.stopPropagation();
@@ -106,14 +126,15 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
 
   public async onResponsedomainSelect() {
     this.referenced = new ElementRevisionRefImpl({
-      uri: this.responseDomain.basedOn,
-      elementKind: ElementKind.RESPONSEDOMAIN,
+      uri: this.responseDomain?.basedOn,
+      elementKind: ElementKind.RESPONSEDOMAIN
     });
   }
 
   public async onMissingSelect() {
     this.referenced = new ElementRevisionRefImpl({
-      element: this.responseDomain.missing
+      element: this.responseDomain?.missing,
+      elementKind: ElementKind.MISSING_GROUP
     });
     console.debug(this.referenced)
   }
@@ -130,10 +151,8 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.canDelete && this.responseDomain.isMixed) {
       const i = this.responseDomain.managedRepresentation.children.findIndex(e => e.categoryKind === 'MISSING_GROUP');
       this.responseDomain.managedRepresentation.children.splice(i, 1);
-      this.responseDomain.name =
-        this.responseDomain.managedRepresentation.label =
-        `Mixed [${this.responseDomain.managedRepresentation.children[0].label}]`;
-      console.debug('debug')
+      this.setDescription()
+      console.debug('onMissingRemove')
       this.responseDomain = new ResponseDomain(JSON.parse(JSON.stringify(this.responseDomain)));
     }
   }
@@ -147,7 +166,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
 
   public onItemRemove() {
     if (this.canDelete) {
-      console.debug("")
+      console.debug("onItemRemove")
       // this.removeEvent.emit({ elementId: this.responseDomain.id, elementKind: this.responseDomain.classKind });
       // this.responseDomain = null;
       // this.localResponseDomain = null;
@@ -155,13 +174,15 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public onRevisionSelect(ref: ElementRevisionRef) {
-    console.debug(ref)
     if (ref.elementKind == 'RESPONSEDOMAIN') {
+      this.responseDomain.basedOn = ref.uri
       this.responseDomain.managedRepresentation.children[0] = ref.element.managedRepresentation
-    } else  {
+    } else {
       this.responseDomain.managedRepresentation.children[1] = ref.element
     }
     this.referenced = null
+    this.setDescription()
+    this.buildPreviewResponseDomain()
   }
 
   public getSource(category: Category): IElement {
@@ -249,33 +270,12 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.buildPreviewResponseDomain();
   }
 
-
-  public buildPreviewResponseDomain() {
-
-    this.responseDomain.managedRepresentation.inputLimit = this.responseDomain.responseCardinality
-    this.previewResponseDomain = new ResponseDomain(this.responseDomain);
-  }
-
-  public power10(format: number): number {
-    return 1 / Math.pow(10, format);
-  }
-
-  public subtract(value1, value2): number {
-    // eslint-disable-next-line radix
-    return parseInt(value1) - parseInt(value2);
-  }
-
-  public addition(value1, value2): number {
-    // eslint-disable-next-line radix
-    return parseInt(value1) + parseInt(value2);
-  }
-
-
   public onItemDrop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       this.buildPreviewResponseDomain();
     }
   }
+
 
 }

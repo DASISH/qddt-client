@@ -4,7 +4,7 @@ import { ElementKind } from '../enums';
 
 
 export abstract class ElementRevisionRef implements IElement, IRevisionRef {
-  uri: IRevId =  { id:"", rev:0};
+  uri: IRevId = { id: "", rev: 0 };
   elementKind: ElementKind | string;
   name?: string;
   text?: string;
@@ -13,7 +13,7 @@ export abstract class ElementRevisionRef implements IElement, IRevisionRef {
   abstract element: any;
 
   get elementId() { return this.uri?.id }
-  set elementId(id:string) { this.uri.id = id }
+  set elementId(id: string) { this.uri.id = id }
   get elementRevision() { return this.uri?.rev }
   set elementRevision(rev: number) { this.uri.rev = rev }
 
@@ -35,10 +35,10 @@ export class ElementRevisionRefImpl<T extends IEntityEditAudit> extends ElementR
   element: T;
   public constructor(init?: Partial<ElementRevisionRef>) {
     super(init);
-    this.elementKind = this.elementKind || this.element.classKind;
-    if(this.element){
+    this.elementKind = init.elementKind || this.element.classKind;
+    if (this.element) {
       this.version = this.element.version;
-      if (!this.uri.id){
+      if (!this.uri.id) {
         this.uri.id = this.element.id
         this.uri.rev = this.element.version.rev
       }

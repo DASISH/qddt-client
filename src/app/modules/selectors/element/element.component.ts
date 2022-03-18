@@ -52,7 +52,7 @@ export class ElementComponent implements OnChanges {
 
   async ngOnChanges(changes: SimpleChanges) {
     if (hasChanges<IElement>(changes.source)) {
-
+      // console.debug(this.source)
       if (hasChanges<IElement>(changes.source, (a1, a2) => a1.elementKind === a2.elementKind)) {
         const cv = changes.source.currentValue as IElement;
         const kind = getElementKind(cv.elementKind);

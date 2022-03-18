@@ -10,7 +10,8 @@ import {
   Page,
   PageSearch,
   TemplateService,
-  MessageService, PropertyStoreService, DomainKind, getQueryInfo, HalResource} from '../../lib';
+  MessageService, PropertyStoreService, DomainKind, getQueryInfo, HalResource
+} from '../../lib';
 
 
 
@@ -73,7 +74,10 @@ export class TemplateListComponent implements OnInit, OnDestroy {
   public onDelete(item: IEntityAudit) {
     this.service.delete(item)
       .subscribe(
-        () => { this.loadPage(); },
+        (result) => {
+          this.loadPage();
+          throw result;
+        },
         (error) => { throw error; });
   }
 
@@ -89,8 +93,8 @@ export class TemplateListComponent implements OnInit, OnDestroy {
         this.pageSearch.page = new Page(result.page);
         let resourceName = getQueryInfo(this.pageSearch.kind).halName;
         if (result._embedded) {
-          this.items = result._embedded[resourceName] as HalResource[] ||[];
-        }else{
+          this.items = result._embedded[resourceName] as HalResource[] || [];
+        } else {
           this.items = []
         }
         this.setPageSearch(this.pageSearch);
@@ -112,9 +116,13 @@ export class TemplateListComponent implements OnInit, OnDestroy {
     } else {
       pageSearch = new PageSearch(pageSearch);
     }
+
+    if (pageSearch.xmlLang == 'none') {
+      console.error('ingen språk satt!!!!')
+    }
     pageSearch.page.size = this.properties.userSetting.pageSize;
 
-    if ((pageSearch.kind === ElementKind.USER || pageSearch.kind === ElementKind.AGENCY ) && pageSearch.sort === 'modified,desc') {
+    if ((pageSearch.kind === ElementKind.USER || pageSearch.kind === ElementKind.AGENCY) && pageSearch.sort === 'modified,desc') {
       pageSearch.sort = 'name,asc';
     }
 

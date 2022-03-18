@@ -18,27 +18,27 @@
             <input [id]="'RDC-'+formId+1" class="validate" name="minimum" type="number"
               [max]="responseDomain.responseCardinality.maximum" (ngModelChange)="buildPreviewResponseDomain()"
               [(ngModel)]="responseDomain.responseCardinality.minimum" required>
-            <label [for]="'RDC-'+formId+1">Start</label>
+            <label>Start</label>
           </div>
           <div class="col s2 input-field">
-            <input class="validate" [id]="'RDC-'+formId+2" name="maximum" type="number"
+            <input [id]="'RDC-'+formId+2" class="validate" name="maximum" type="number"
               [min]="responseDomain.responseCardinality.minimum" [step]="responseDomain.responseCardinality.stepUnit"
               (ngModelChange)="buildPreviewResponseDomain()" [(ngModel)]="responseDomain.responseCardinality.maximum"
               required>
-            <label [for]="'RDC-'+formId+2">End</label>
+            <label>End</label>
           </div>
           <div class="col s2 input-field">
-            <input class="validate" [id]="'RDC-'+formId+3" name="stepUnit" type="number" [min]="1"
+            <input [id]="'RDC-'+formId+3" class="validate" name="stepUnit" type="number" [min]="1"
               [max]="responseDomain.responseCardinality.maximum/2" [step]="1"
               (ngModelChange)="buildPreviewResponseDomain()" [(ngModel)]="responseDomain.responseCardinality.stepUnit"
               required>
-            <label [for]="'RDC-'+formId+3">Range</label>
+            <label>Range</label>
           </div>
           <div class="col s3 input-field">
-            <input [id]="'RDC-'+formId+4" name="scale_anchor" placeholder="number of anchors" type="number" [min]="0"
-              [max]="responseDomain.responseCardinality.maximum" [(ngModel)]="numberOfAnchors"
-              (ngModelChange)="onChangeNumberOfAnchors($event)" required class="validate">
-            <label [for]="'RDC-'+formId+4">Number of Anchor</label>
+            <input [id]="'RDC-'+formId+4" class="validate" name="scale_anchor" type="number"
+              placeholder="number of anchors" [min]="0" [max]="responseDomain.responseCardinality.maximum"
+              [(ngModel)]="numberOfAnchors" (ngModelChange)="onChangeNumberOfAnchors($event)" required>
+            <label>Number of Anchor</label>
           </div>
           <div class="col s3">
             <qddt-select required name="displayLayout" label="Display Layout" [(ngModel)]="responseDomain.displayLayout"
@@ -83,7 +83,7 @@
         <qddt-preview-responsedomain [responseDomain]="previewResponseDomain"></qddt-preview-responsedomain>
         <div class="row" cdkDropList cdkDrop [cdkDropListData]="responseDomain.managedRepresentation.anchors"
           (cdkDropListDropped)="onItemDrop($event)">
-          <ul >
+          <ul>
             <li class="hoverable minirow" cdkDrag
               *ngFor="let category of responseDomain.managedRepresentation.anchors; let idx=index;trackBy:trackByIndex">
               <div class="input-field minicol" style="width: 20%;">
@@ -214,7 +214,8 @@
                 </li>
               </ul>
               <ng-container>
-                <input class="col s8" name="managedRepresentation-label" type="text" placeholder="select ResponseDomain..." readonly="readonly"
+                <input class="col s8" name="managedRepresentation-label" type="text"
+                  placeholder="select ResponseDomain..." readonly="readonly"
                   [ngModel]="responseDomain.managedRepresentation?.children[0]?.label">
                 <label>Response Domain (V <qddt-version [element]="responseDomain.managedRepresentation?.children[0]">
                   </qddt-version>)
@@ -225,7 +226,7 @@
           <div class="col s12">
             <div class="input-field">
               <ul class="dropleft">
-                <li *ngIf="responseDomain.missing">
+                <li *ngIf="responseDomain?.missing">
                   <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
                     (click)="onGotoEdit($event,responseDomain.missing.id)">
                     <i class="material-icons" title="Edit source">edit</i>
@@ -236,7 +237,7 @@
                     (click)="onMissingSelect()">
                     <i class="material-icons" title="Select missing & version">autorenew</i>
                   </a>
-                <li *ngIf="responseDomain.missing">
+                <li *ngIf="responseDomain?.missing">
                   <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red"
                     (click)="confirmDialog.showConfirmDeleting($event, responseDomain)">
                     <i class="material-icons" title="Remove">remove</i>
@@ -245,8 +246,8 @@
               </ul>
               <ng-container>
                 <!-- <div *ngIf="responseDomain.missing" class="input-field"> -->
-                <input  class="col s8" name="missing-label" type="text" placeholder="select Missing..." readonly="readonly"
-                  [ngModel]="responseDomain.missing?.label">
+                <input class="col s8" name="missing-label" type="text" placeholder="select Missing..."
+                  readonly="readonly" [ngModel]="responseDomain.missing?.label">
                 <label>Missing representation (V <qddt-version [element]="responseDomain.missing"></qddt-version>)
                 </label>
               </ng-container>
@@ -258,7 +259,7 @@
           <li class="hoverable minirow"
             *ngFor="let category of responseDomain.missing?.children; let idx=index;trackBy:trackByIndex">
             <div class="input-field minicol" style="width: 15%;">
-              <input name="{{idx}}1-code-value" type="text" (change)="buildPreviewResponseDomain()"
+              <input name="{{idx}}1-code-value" type="text" (ngModelChange)="buildPreviewResponseDomain()"
                 [(ngModel)]="category.code.value" class="validate" required placeholder="Text or number">
             </div>
             <div class="input-field minicol" style="width: 52.6%;cursor:not-allowed;">
