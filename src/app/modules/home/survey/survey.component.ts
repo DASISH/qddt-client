@@ -78,7 +78,7 @@ export class SurveyComponent implements OnInit {
 
   onShowStudy(surveyProgram: any) {
     this.property.set('survey', surveyProgram);
-    this.property.setCurrentMenu(HierarchyPosition.Survey, { id: surveyProgram.id, name: surveyProgram.name });
+    this.property.setCurrentMenu(HierarchyPosition.Survey, { id: surveyProgram.id, name: surveyProgram.label });
     this.property.pathClear(HierarchyPosition.Study);
     this.property.pathClear(HierarchyPosition.Topic);
     this.property.pathClear(HierarchyPosition.Concept);

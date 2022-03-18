@@ -83,7 +83,7 @@ export class StudyComponent implements OnInit {
     }
 
     this.property.set('study', study);
-    this.property.setCurrentMenu(HierarchyPosition.Study, { id: study.id, name: study.name });
+    this.property.setCurrentMenu(HierarchyPosition.Study, { id: study.id, name: study.label });
     this.router.navigate(['topic', study.id]);
     // this.router.navigate(['topic']);
   }

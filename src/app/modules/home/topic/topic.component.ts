@@ -107,7 +107,7 @@ export class TopicComponent implements OnInit, OnChanges {
       this.property.set('concepts', null);
     }
     this.property.set('topic', topic);
-    this.property.setCurrentMenu(HierarchyPosition.Topic, { id: topic.id, name: topic.name });
+    this.property.setCurrentMenu(HierarchyPosition.Topic, { id: topic.id, name: topic.label });
     this.property.setCurrentMenu(HierarchyPosition.Concept, { id: null, name: 'Concept' });
 
     this.router.navigate(['concept', topic.id]);
