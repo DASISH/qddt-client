@@ -46,11 +46,8 @@
     <qddt-preview-topic [topic]="element"></qddt-preview-topic>
   </ng-container>
   <ng-container *ngSwitchCase=instanceRefEnum.CATEGORY>
-    <div *ngFor="let category of elementAsMissing(element).anchors;">
-      <span class="codeValue"> {{ category.code?.value || '?' }} </span>
-      <label>
-        <span>{{category.label}}</span>
-      </label>
+    <div class="collection-item" *ngFor="let category of elementAsMissing(element).anchors;">
+      <h5> {{ category.code?.value || '?' }}  {{category.label}} </h5>
     </div>
   </ng-container>
   <ng-container *ngSwitchCase=instanceRefEnum.INSTRUCTION>
@@ -79,9 +76,10 @@
     </ul>
 
   </ng-container>
-
   <qddt-download *ngIf="hideElement(element)" [entity]="element" [readonly]="true" [isHidden]="!showDetail">
   </qddt-download>
+
+  <qddt-element-footer [element]="element"></qddt-element-footer>
 
   <ul class="hoverable" *ngIf="showDetail">
     <li (click)="revisionIsVisible=!revisionIsVisible" style="cursor: zoom-in !important;">
