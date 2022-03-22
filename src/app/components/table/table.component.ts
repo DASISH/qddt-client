@@ -171,6 +171,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
 
   public onConfirmDeleting(response, item: IEntityEditAudit) {
     if (response) {
+      console.debug(response)
       this.deleteEvent.emit(item);
     }
   }

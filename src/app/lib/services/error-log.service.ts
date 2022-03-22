@@ -21,7 +21,10 @@ export class ErrorLogService {
     } else if (error instanceof TypeError) {
 
       console.error(error.stack);
-      toast({ html: '<em style="color:yellow">' + (error as TypeError).message + '</em>', displayLength: 5000 });
+      toast({
+        html: '<em style="color:yellow">' + (error as TypeError).message + '</em>', displayLength: 5000,
+        activationPercent: 0.1
+      });
 
     } else if (error instanceof Error) {
 
@@ -31,11 +34,17 @@ export class ErrorLogService {
         this.logError(error.rejection);
         return;
       }
-      toast({ html: error.message, displayLength: 5000 });
+      toast({
+        html: error.message, displayLength: 5000,
+        activationPercent: 0.1
+      });
     } else {
 
       console.error('Nobody threw an error but something happened!', error);
-      toast({ html: error.message, displayLength: 5000 });
+      toast({
+        html: error.message, displayLength: 5000,
+        activationPercent: 0.1
+      });
 
     }
   }
@@ -43,7 +52,10 @@ export class ErrorLogService {
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
-      toast({ html: error.error.message });
+      toast({
+        html: error.error.message,
+        activationPercent: 0.1
+      });
     } else {
       if (error.status === 401) {
         this.authService.logout();
@@ -53,12 +65,14 @@ export class ErrorLogService {
       if (error.error.userfriendlyMessage) {
         toast({
           html: error.error.userfriendlyMessage,
-          displayLength: 5000
+          displayLength: 5000,
+          activationPercent: 0.1
         });
       } else {
         toast({
-          html: `Error code ${error.status}, <br> ${error.error.exceptionMessage}`,
-          displayLength: 5000
+          html: `Error code ${error.status}, <br> ${error.error.message}`,
+          displayLength: 5000,
+          activationPercent: 0.1
         });
       }
     }

@@ -211,10 +211,12 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.responseDomain.managedRepresentation.inputLimit = this.responseDomain.responseCardinality
     this.service.update<ResponseDomain>(this.responseDomain).subscribe(
       (rdResult) => {
-        this.responseDomain = rdResult;
-        this.modifiedEvent.emit(rdResult);
-      }
-    );
+        this.responseDomain = rdResult
+        this.modifiedEvent.emit(rdResult)
+      },
+      (error) => {
+        throw error
+      })
   }
 
   public onAnchorChanged(event, idx) {
