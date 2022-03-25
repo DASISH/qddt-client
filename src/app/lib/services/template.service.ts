@@ -173,13 +173,14 @@ export class TemplateService {
     let header = new HttpHeaders()
       .set('Accept', 'application/octet-stream');
 
-    return this.http.get(this.api + qe.path + '/pdf/' + item.id, { responseType: 'blob', headers: header }).toPromise();
+    // return this.http.get(this.api + qe.path + '/pdf/' + item.id, { responseType: 'blob', headers: header }).toPromise();
+    return this.http.get(this.api + 'othermaterial/pdf/' + item.id, { responseType: 'blob', headers: header }).toPromise();
   }
 
   public getXML(item: IEntityEditAudit): Promise<Blob> {
     const qe = getQueryInfo(item.classKind);
     let header = new HttpHeaders()
-      .set('Accept', 'text/xml');
+      .set('Accept', 'application/xml');
 
     return this.http.get(this.api + qe.path + '/xml/' + item.id, { responseType: 'blob', headers: header }).toPromise();
   }
