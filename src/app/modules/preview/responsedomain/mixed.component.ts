@@ -20,7 +20,6 @@ import { Category, ResponseCardinality, UserResponse, Parameter } from '../../..
         </qddt-preview-rd-scale>
         <qddt-preview-rd-codelist *ngSwitchCase="'LIST'"
           [managedRepresentation]="rep"
-          [responseCardinality]="responseCardinality"
           [inputGroupName]="managedRepresentation.label"
           [parameterIn]="parameterIn"
           (selectedEvent)="onSelectedEvent($event,idx)">

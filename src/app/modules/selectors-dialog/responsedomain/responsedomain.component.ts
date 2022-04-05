@@ -84,8 +84,8 @@ export class ResponsedomainComponent implements OnChanges {
   }
 
 
-  public onItemRemove() {
-    if (this.canDelete) {
+  public onItemRemove(event) {
+    if (this.canDelete && (event)) {
       this.removeEvent.emit({ elementId: this.responseDomain.id, elementKind: this.responseDomain.classKind });
       this.responseDomain = null;
       this.localResponseDomain = null;

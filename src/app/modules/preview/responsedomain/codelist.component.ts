@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { lookupService } from 'dns';
 import { Category, ResponseCardinality, UserResponse, Parameter } from '../../../lib/classes';
 
 @Component({
@@ -19,7 +20,6 @@ import { Category, ResponseCardinality, UserResponse, Parameter } from '../../..
 export class ResponsedomainCodeListComponent implements OnChanges {
   @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() managedRepresentation: Category;
-  @Input() responseCardinality: ResponseCardinality;
   @Input() inputGroupName = 'option-select'
   @Input() parameterIn: Parameter[] = [];
 
@@ -42,7 +42,7 @@ export class ResponsedomainCodeListComponent implements OnChanges {
         );
     }
 
-    this.type = (+this.responseCardinality.maximum > 1) ? 'checkbox' : 'radio';
+      this.type = (+rep.inputLimit.maximum > 1) ? 'checkbox' : 'radio';
 
   }
 
@@ -63,7 +63,7 @@ export class ResponsedomainCodeListComponent implements OnChanges {
       }
       row.checked = event.target.checked;
       if (this.type === 'checkbox') {
-        if (this.rows.filter((e: any) => e.checked).length >= this.responseCardinality.maximum) {
+        if (this.rows.filter((e: any) => e.checked).length >= this.managedRepresentation.inputLimit.maximum) {
           this.rows.filter((e: any) => !e.checked).forEach(e => e.disabled = 'true');
         } else {
           this.rows.forEach((e: any) => e.disabled = '');
