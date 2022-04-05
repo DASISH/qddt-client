@@ -1,9 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { API_BASE_HREF } from '../../api';
 import { ElementKind } from '../enums';
 import { getQueryInfo, getElementKind } from '../consts';
-import { IEntityEditAudit, IOtherMaterial } from '../interfaces';
+import { IEntityEditAudit, IOtherMaterial, IRevisionRef } from '../interfaces';
 import { ElementRevisionRefImpl, AbstractControlConstruct, isAbstractControlConstruct, SequenceConstruct } from '../classes';
 import { Factory } from '../factory';
 
@@ -28,23 +28,17 @@ export class PreviewService {
   }
 
   public getFile(om: IOtherMaterial): Promise<Blob> {
-    // /files/{root}/{filename}
     return this.http.get(this.api + 'othermaterial/files/' + om.originalOwner + '/' + om.fileName, { responseType: 'blob' })
       .toPromise();
   }
 
-  public getPdf(element: IEntityEditAudit): Promise<Blob> {
-    // @ts-ignore
-    const qe = getQueryInfo(element.classKind || element.refKind);
-    // @ts-ignore
-    const revision = element.refRev || element.version.rev;
-    if (revision) {
-      return this.http.get(this.api + '/' + qe.path + '/' + element.id + ':' + element.version.rev + '/pdf'
-        , { responseType: 'blob' }).toPromise();
-    } else {
-      return this.http.get(this.api + '/' + qe.path + '/' + element.id + '/pdf', { responseType: 'blob' }).toPromise();
-    }
+  public getPdf(item: IRevisionRef): Promise<Blob> {
+    let header = new HttpHeaders().set('Accept', 'application/octet-stream');
+    let uri = item.elementId + ((item.elementRevision) ? ':' + item.elementRevision : '')
+
+    return this.http.get(this.api + 'othermaterial/pdf/' + uri, { responseType: 'blob', headers: header }).toPromise();
   }
+
 
   public async getCtrlRevRefAsync(item: ElementRevisionRefImpl<AbstractControlConstruct>) {
     if (!item.element) {

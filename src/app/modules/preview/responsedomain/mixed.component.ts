@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { hasChanges } from 'src/app/lib';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { Category, ResponseCardinality, UserResponse, Parameter } from '../../../lib/classes';
 
 
@@ -49,7 +50,7 @@ import { Category, ResponseCardinality, UserResponse, Parameter } from '../../..
 `
 })
 
-export class ResponsedomainMixedComponent {
+export class ResponsedomainMixedComponent implements OnChanges {
   @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() managedRepresentation: Category;
   @Input() responseCardinality: ResponseCardinality;
@@ -57,6 +58,13 @@ export class ResponsedomainMixedComponent {
   @Input() displayLayout = 0;
 
   public missingRef;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (hasChanges(changes.managedRepresentation)) {
+      this.responseCardinality = this.managedRepresentation.inputLimit
+    }
+  }
+
 
   public onSelectedEvent(idxs: UserResponse[], missingRef?: any) {
     if (missingRef) {
