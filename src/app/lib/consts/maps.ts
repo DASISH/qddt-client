@@ -1,7 +1,8 @@
-import { ConstructKind, LanguageKind} from '../enums';
+import { ConstructKind, selectLanguages } from '../enums';
 import { toSelectItems } from './functions';
 
-export const LANGUAGE_MAP = toSelectItems(LanguageKind);
+export const LANGUAGE_MAP = selectLanguages; // toSelectItems(LanguageKind);
+
 
 export const CONSTRUCT_MAP = toSelectItems(ConstructKind);
 

@@ -135,7 +135,7 @@ export class TemplateService {
 
   public copySource<T extends IEntityAudit>(elementKind: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<T> {
     const qe = getQueryInfo(elementKind);
-    return this.http.post<T>(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
+    return this.http.post<T>(this.api + qe.path + '/' + toParentId + '/addcopy/' + fromId + ':' + fromRev, {});
   }
 
   public update<T extends IEntityAudit>(item: T, parentId?: string): Observable<T> {

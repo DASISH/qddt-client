@@ -4,6 +4,7 @@ export class SelectItem implements ISelectOption {
   id: number;
   label: string;
   value?: any;
+  iconUrl?: string;
   children?: ISelectOption[];
 
   public constructor(init?: Partial<ISelectOption>) {
@@ -11,7 +12,7 @@ export class SelectItem implements ISelectOption {
     this.label = init.label;
     this.value = init.value || init.id;
 
-    const values = Object.entries(init).filter( f => f[0] !== 'children');
+    const values = Object.entries(init).filter(f => f[0] !== 'children');
     if (values.length > 3) {
       // const source =  '{ ' + values.map(key => `"${key[0]}": "${key[1]}"`).join(' ,') + ' }';
       // this.ref = JSON.parse(source);

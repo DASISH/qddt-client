@@ -39,6 +39,9 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isLoggedIn$.subscribe(
       (connected) => {
         console.debug('Logged In Status [' + connected + ']');
+        if (!connected) {
+          this.router.navigate(['/login']);
+        }
         this.username = this.getUserName();
         this.setVisibility();
         if (connected && this.router.url === '/login') {
