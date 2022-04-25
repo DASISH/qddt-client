@@ -1,4 +1,4 @@
-import { Category } from 'src/app/lib';
+import { Category, IEntityEditAudit, IRevisionRef } from 'src/app/lib';
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { ElementEnumAware, ElementKind, IEntityAudit, PreviewService, Parameter, saveAs } from '../../lib';
 
@@ -24,7 +24,6 @@ export class PreviewComponent implements AfterViewInit {
 
   public instanceRefEnum = ElementKind;
   public revisionIsVisible = false;
-  // public readonly compId = Math.round(Math.random() * 10000);
   public readonly elementAsMissing = (element: IEntityAudit): Category => new Category(element);
 
   private readonly hide = [ElementKind.AGENCY, ElementKind.AUTHOR, ElementKind.CONDITION_CONSTRUCT,
@@ -40,9 +39,14 @@ export class PreviewComponent implements AfterViewInit {
     return ElementKind[element.classKind];
   }
 
-  public onGetPdf(element: IEntityAudit) {
+
+  public onGetPdf(element: IEntityEditAudit) {
     const fileName = element.name + '.pdf';
-    this.service.getPdf(element).then((data: any) => { saveAs(data, fileName, 'application/pdf'); });
+    this.service.getPdf({
+      elementId: element.id,
+      elementRevision: element.version.rev,
+      elementKind: element.classKind
+    } as IRevisionRef).then((data: any) => { saveAs(data, fileName, 'application/pdf'); });
   }
 
   public hideElement(element: IEntityAudit): boolean {

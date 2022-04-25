@@ -34,19 +34,20 @@ import { ParameterComponent } from './parameter/parameter.component';
 import { MustMatchDirective } from './form/match.directive';
 import { ConfirmRemoveComponent } from './dialog/remove.component';
 import { UploadFilesComponent } from './upload-files/upload-files.component';
+import {DownloadTopicComponent} from './download/download-topic.component';
 
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, CompareModule, DragDropModule],
   declarations: [LocalDatePipe, LocalNumberPipe, FilterPipe, SortPipe, TemplateComponent, TemplateListComponent, TemplateDetailComponent,
-    QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent, ParameterComponent,
+    QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent, DownloadTopicComponent, ParameterComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent, DialogBigComponent, ConfirmRemoveComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent, DialogComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, MustMatchDirective, SpinnerComponent,
     ParentFormConnectDirective, GravatarDirective, ContenteditableDirective, EqualValidator,
     FormSelectComponent, FormInputComponent, FormTextAreaComponent, FormInputNComponent, ValidationComponent, UploadFilesComponent],
   exports: [LocalDatePipe, LocalNumberPipe, FilterPipe, SortPipe, CommonModule, FormsModule, SpinnerComponent,
-    QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent,
+    QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent, DownloadTopicComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, DialogComponent, DialogBigComponent, ConfirmRemoveComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, MustMatchDirective,

@@ -1,3 +1,4 @@
+import { getElementKind } from 'src/app/lib/consts';
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -8,7 +9,6 @@ import { Agency, IPassword, UserJwt, User } from '../classes';
 import { IAuthority, IPageResult } from '../interfaces';
 import { PropertyStoreService } from './property.service';
 import { TokenStorageService } from './token-storage.service';
-import { threadId } from 'worker_threads';
 
 
 /**
@@ -44,7 +44,7 @@ export class UserService {
   }
 
   public canDo(action: ActionKind, kind: ElementKind): boolean {
-    // console.debug('canDo -> Action:' + ActionKind[action] + ' Kind:' + kind);
+    kind = getElementKind(kind)
     function canRead(roles: number) {
       if (kind >= ElementKind.INSTRUCTION && roles < AuthorityKind.ROLE_ADMIN) {
         console.debug('canRead false ' + kind);
@@ -54,7 +54,7 @@ export class UserService {
         console.debug('canRead true ' + kind);
         return true;
       }
-      console.debug('canRead ?' + kind + ' + ' + ElementKind.PUBLICATION + ' = ' + (kind == ElementKind.PUBLICATION));
+      console.debug('canRead => ' + kind + ' + ' + ElementKind.PUBLICATION + ' = ' + (kind == ElementKind.PUBLICATION));
 
       return (kind === ElementKind.PUBLICATION);
     }

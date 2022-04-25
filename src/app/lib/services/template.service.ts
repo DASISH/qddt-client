@@ -135,7 +135,7 @@ export class TemplateService {
 
   public copySource<T extends IEntityAudit>(elementKind: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<T> {
     const qe = getQueryInfo(elementKind);
-    return this.http.post<T>(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
+    return this.http.post<T>(this.api + qe.path + '/' + toParentId + '/addcopy/' + fromId + ':' + fromRev, {});
   }
 
   public update<T extends IEntityAudit>(item: T, parentId?: string): Observable<T> {
@@ -173,13 +173,14 @@ export class TemplateService {
     let header = new HttpHeaders()
       .set('Accept', 'application/octet-stream');
 
-    return this.http.get(this.api + qe.path + '/pdf/' + item.id, { responseType: 'blob', headers: header }).toPromise();
+    // return this.http.get(this.api + qe.path + '/pdf/' + item.id, { responseType: 'blob', headers: header }).toPromise();
+    return this.http.get(this.api + 'othermaterial/pdf/' + item.id, { responseType: 'blob', headers: header }).toPromise();
   }
 
   public getXML(item: IEntityEditAudit): Promise<Blob> {
     const qe = getQueryInfo(item.classKind);
     let header = new HttpHeaders()
-      .set('Accept', 'text/xml');
+      .set('Accept', 'application/xml');
 
     return this.http.get(this.api + qe.path + '/xml/' + item.id, { responseType: 'blob', headers: header }).toPromise();
   }

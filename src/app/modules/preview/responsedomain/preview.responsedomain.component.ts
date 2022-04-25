@@ -14,7 +14,6 @@ import { Category, DomainKind, ResponseCardinality, ResponseDomain, UserResponse
         <qddt-preview-rd-mixed *ngSwitchCase="refKind.MIXED"
           [managedRepresentation]="rep"
           [displayLayout]="displayLayout"
-          [responseCardinality]="cardinality"
           [parameterIn]="parameterIn"
           (selectedEvent)="onSelectedEvent($event)">
         </qddt-preview-rd-mixed>
@@ -27,7 +26,6 @@ import { Category, DomainKind, ResponseCardinality, ResponseDomain, UserResponse
         <qddt-preview-rd-codelist  *ngSwitchCase=refKind.LIST
           [managedRepresentation]="rep"
           [inputGroupName]="responseDomain.name"
-          [responseCardinality]="cardinality"
           [parameterIn]="parameterIn"
           (selectedEvent)="onSelectedEvent($event)">
         </qddt-preview-rd-codelist>
@@ -84,7 +82,7 @@ export class PreviewResponsedomainComponent implements OnChanges {
       this.responseDomain = new ResponseDomain(changes.responseDomain.currentValue)
       this.responseKind = DomainKind[this.responseDomain.responseKind];
       this.rep =  this.responseDomain.managedRepresentation
-      this.cardinality = new ResponseCardinality(this.responseDomain.responseCardinality);
+      this.cardinality = this.rep.inputLimit //  new ResponseCardinality(this.responseDomain.responseCardinality);
       this.displayLayout = +this.responseDomain.displayLayout;
     }
   }

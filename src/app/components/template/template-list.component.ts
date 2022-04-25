@@ -118,7 +118,7 @@ export class TemplateListComponent implements OnInit, OnDestroy {
     }
 
     if (pageSearch.xmlLang == 'none') {
-      console.error('ingen språk satt!!!!')
+      pageSearch.xmlLang = this.properties.userSetting.xmlLang
     }
     pageSearch.page.size = this.properties.userSetting.pageSize;
 

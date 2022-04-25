@@ -213,16 +213,29 @@
                   </a>
                 </li>
               </ul>
-              <ng-container>
-                <input class="col s8" name="managedRepresentation-label" type="text"
-                  placeholder="select ResponseDomain..." readonly="readonly"
-                  [ngModel]="responseDomain.managedRepresentation?.children[0]?.label">
-                <label>Response Domain (V <qddt-version [element]="responseDomain.managedRepresentation?.children[0]">
-                  </qddt-version>)
-                </label>
-              </ng-container>
             </div>
           </div>
+        </div>
+        <ng-container>
+          <div class="row">
+            <div class="col s8 input-field">
+              <input name="managedRepresentation-label" type="text" placeholder="select ResponseDomain..."
+                readonly="readonly" [ngModel]="responseDomain.managedRepresentation?.children[0]?.label">
+              <label for="managedRepresentation-label">
+                Response Domain (V <qddt-version [element]="responseDomain.managedRepresentation?.children[0]">
+                </qddt-version>)
+              </label>
+            </div>
+            <div class="col s4 m3 l2">
+              <qddt-select required name="displayLayout" label="Display Layout"
+                [readonly]="responseDomain.managedRepresentation?.children[0]?.categoryKind !== 'SCALE'"
+                [(ngModel)]="responseDomain.displayLayout" [lockups]="DISPLAYLAYOUTS"
+                (ngModelChange)="buildPreviewResponseDomain()">
+              </qddt-select>
+            </div>
+          </div>
+        </ng-container>
+        <div class="row">
           <div class="col s12">
             <div class="input-field">
               <ul class="dropleft">

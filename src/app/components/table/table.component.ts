@@ -1,3 +1,4 @@
+import { isIEntityEditAudit } from './../../lib/consts/functions';
 import { hasChanges } from 'src/app/lib';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -171,13 +172,20 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
 
   public onConfirmDeleting(response, item: IEntityEditAudit) {
     if (response) {
+      console.debug(response)
       this.deleteEvent.emit(item);
     }
   }
 
-  public onGetPdf(item: IEntityEditAudit) {
+  public onGetPdf(item) {
     const fileName = item.name + '.pdf';
-    this.previewService.getPdf(item).then((data: any) => { saveAs(data, fileName, 'application/pdf'); });
+    let revref: IRevisionRef
+    if (isIEntityEditAudit(item)) {
+      revref = { elementId: item.id, elementRevision: null, elementKind: item.classKind }
+    } else {
+      revref = { elementId: item.refId, elementRevision: item.refRev, elementKind: item.refKind }
+    }
+    this.previewService.getPdf(revref).then((data: any) => { saveAs(data, fileName, 'application/pdf'); });
   }
 
   public onDetailChecked() {

@@ -13,54 +13,55 @@ import {
 @Component({
   selector: 'qddt-question-items',
   template: `
-  <div class="collection with-header hoverable row">
-      <a class="collection-header col s12"  (click)="onItemSearch($event)" [ngStyle]= " { 'cursor': readonly ? 'normal' : 'zoom-in' }">
-        <label><i class="material-icons small">help</i>Question Items</label>
-        <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal"
-          [ngClass]="{ hide: !showButton }" >
-          <i class="material-icons" title="Associate QuestionItem with element">playlist_add</i>
+<div class="collection with-header hoverable row">
+  <a class="collection-header col s12"  (click)="onItemSearch($event)" [ngStyle]= " { 'cursor': readonly ? 'normal' : 'zoom-in' }">
+    <label><i class="material-icons small">help</i>Question Items</label>
+    <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal"
+      [ngClass]="{ hide: !showButton }" >
+      <i class="material-icons" title="Associate QuestionItem with element">playlist_add</i>
+    </a>
+  </a>
+  <a class="collection-item col s12 black-text text-lighten-3" *ngFor="let cqi of revisionRefs?.sort()" (click)="onItemPreview($event,cqi)" >
+    <qddt-version-label class="right" [revisionRef]="cqi" ></qddt-version-label>
+    <ul *ngIf="!readonly" class="dropleft">
+      <li>
+        <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemEdit($event,cqi)">
+          <i class="material-icons" title="Edit question">edit</i>
         </a>
-      </a>
-      <a class="collection-item col s12 black-text text-lighten-3" *ngFor="let cqi of revisionRefs?.sort()" (click)="onItemPreview($event,cqi)" >
-        <qddt-version-label class="right" [revisionRef]="cqi" ></qddt-version-label>
-        <ul *ngIf="!readonly" class="dropleft">
-          <li>
-            <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemEdit($event,cqi)">
-              <i class="material-icons" title="Edit question">edit</i>
-            </a>
-          </li>
-          <li>
-            <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue" (click)="onItemUpdate($event, cqi)">
-              <i class="material-icons" title="update selected">sync</i>
-            </a>
-          </li>
-          <li>
-            <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="confirmDialog.showConfirmDeleting($event, cqi)">
-              <i class="material-icons" title="Remove selected">remove</i>
-            </a>
-          </li>
-        </ul>
-        <div class="question" [innerHtml]="cqi?.name || cqi?.element?.name &&  ' ➫ ' && cqi?.element?.question"></div>
-      </a>
-    </div>
+      </li>
+      <li>
+        <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue" (click)="onItemUpdate($event, cqi)">
+          <i class="material-icons" title="update selected">sync</i>
+        </a>
+      </li>
+      <li>
+        <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="confirmDialog.showConfirmDeleting($event, cqi)">
+          <i class="material-icons" title="Remove selected">remove</i>
+        </a>
+      </li>
+    </ul>
+    <div class="question" [innerHtml]="cqi?.name || cqi?.element?.name &&  ' ➫ ' && cqi?.element?.question"></div>
+  </a>
+</div>
 
-    <qddt-confirm-remove (dialogResult)="onItemRemove($event)" #confirmDialog>
-    </qddt-confirm-remove>
-  <!-- Modal Structure -->
-  <div  id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
-    <div class="modal-content white black-text" >
-      <h4>Select QuestionItem version</h4>
-      <qddt-element-revision-select
-          [source] = "SOURCE"
-          [xmlLang]="xmlLang"
-          (revisionSelectedEvent)="revisionSelectedEvent($event)"
-          (dismissEvent) ="onDismiss()">
-      </qddt-element-revision-select>
-    </div>
-    <div class="modal-footer">
-      <a class="btn btn-default red  waves-effect waves-light" (click)="onDismiss()" >Dismiss</a>
-    </div>
+<qddt-confirm-remove (dialogResult)="onItemRemove($event)" #confirmDialog>
+</qddt-confirm-remove>
+
+<!-- Modal Structure -->
+<div  id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
+  <div class="modal-content white black-text" >
+    <h4>Select QuestionItem version</h4>
+    <qddt-element-revision-select
+        [source] = "SOURCE"
+        [xmlLang]="xmlLang"
+        (revisionSelectedEvent)="revisionSelectedEvent($event)"
+        (dismissEvent) ="onDismiss()">
+    </qddt-element-revision-select>
   </div>
+  <div class="modal-footer">
+    <a class="btn btn-default red waves-effect waves-light" (click)="onDismiss()" >Dismiss</a>
+  </div>
+</div>
 `,
 })
 export class QuestionItemsComponent {
