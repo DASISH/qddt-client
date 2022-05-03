@@ -1,0 +1,56 @@
+apiVersion: qddt-client/v1
+kind: Deployment
+metadata:
+  name: $CI_ENVIRONMENT_SLUG
+  namespace: $KUBE_NAMESPACE
+  annotations:
+    app.gitlab.com/env: $CI_ENVIRONMENT_SLUG
+    app.gitlab.com/app: $CI_PROJECT_PATH_SLUG
+  labels:
+    app: $CI_ENVIRONMENT_SLUG
+    pipeline_id: "$CI_PIPELINE_ID"
+spec:
+  replicas: $REPLICAS
+  selector:
+    matchLabels:
+      name: $CI_ENVIRONMENT_SLUG
+  template:
+    metadata:
+      annotations:
+        app.gitlab.com/env: $CI_ENVIRONMENT_SLUG
+        app.gitlab.com/app: $CI_PROJECT_PATH_SLUG
+      labels:
+        name: $CI_ENVIRONMENT_SLUG
+        app: $CI_ENVIRONMENT_SLUG
+    spec:
+      containers:
+      - name: app
+        image: $CI_REGISTRY_IMAGE:$CI_REGISTRY_TAG
+        ports:
+        - name: web
+          containerPort: $HTTP_PORT
+        livenessProbe:
+          httpGet:
+            path: /
+            port: $HTTP_PORT
+          initialDelaySeconds: 15
+          timeoutSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /
+            port: $HTTP_PORT
+          initialDelaySeconds: 5
+          timeoutSeconds: 15
+        lifecycle:
+          preStop:  # Give ingress container time to stop sending requests to this container during shutdown.
+            exec:
+              command: ['/bin/sleep', '15']
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  name: $CI_ENVIRONMENT_SLUG
+              topologyKey: topology.kubernetes.io/zone
+            weight: 10

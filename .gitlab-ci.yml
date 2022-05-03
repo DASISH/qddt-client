@@ -1,0 +1,52 @@
+include:
+  - project: 'asm/gitlab-ci-helpers'
+    file: '/gitlab-ci-helpers.yml'
+
+variables:
+  KUBE_PROD_DOMAIN: hello.paas2.uninett.no
+  KUBE_TEST_ID: hello
+  HTTP_PORT: '80' # The port number of the web server.
+  REPLICAS: '1'
+
+stages:
+  - build
+  - test
+  - review
+  - staging
+  - production
+
+build:
+  extends: .docker-build
+  stage: build
+  only:
+    - branches
+
+imagescan:
+  extends: .imagescan
+  stage: test
+  only:
+    - branches
+
+production:
+  extends: .production
+  stage: production
+  variables:
+    REPLICAS: "2"
+  script:
+    - deploy deployment.yaml
+
+staging:
+  extends: .staging
+  stage: staging
+  script:
+    - deploy deployment.yaml
+
+review:
+  extends: .review
+  stage: review
+  script:
+    - deploy deployment.yaml
+
+stop_review:
+  extends: .stop_review
+  stage: review
